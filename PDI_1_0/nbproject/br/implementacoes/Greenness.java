@@ -56,24 +56,22 @@ public BufferedImage GreennKG(BufferedImage img, double alpha, double beta) {
             
         }
     }
-    System.out.println("PRINTSON");
+  
  
     for (int i = 0; i<256; i++) {
     	
-//    	System.out.println(histograma[i] + " contador " +i);
     	cont = histograma[i] + cont; 	
     }
-    System.out.println("total normal " + cont);
+
     cont = 0;
-    System.out.println("HISTOGRAMA ATUALIZADO");
+
     
     for (int i = 0; i<256; i++) {
     	newHistograma[i] = Math.pow(Math.log(histograma[i] + A), B);
-    	System.out.println(newHistograma[i] + " contador " +i);
     	pixelNewHisto += newHistograma[i];
     }
     
-    System.out.println("total novo " + cont);
+
     //FINAL NORMALIZAÇÃO
     
     for (int i = 0; i<256; i++) {
@@ -83,10 +81,10 @@ public BufferedImage GreennKG(BufferedImage img, double alpha, double beta) {
     	}
     	
     }
-//    System.out.println("FINAL ASDFASDFAS DFA SDF ASDF ASDF " + cont2 + "/" + cont3+ " = " + cont2/cont3);
+
     media = cont2/cont3;
     
-//    System.out.println(media + " Média");
+
     
     for (int i = 0; i<256; i++) {
     	
@@ -94,11 +92,10 @@ public BufferedImage GreennKG(BufferedImage img, double alpha, double beta) {
 //    	else 
     		hcl[i] = newHistograma[i];
     	
-//    	System.out.println(newHistograma[i] + " / / " + hcl[i]);
+
     	
     }
     
-//    System.out.println("????????????????????????????????");
     cont = 0;
     nAlpha = img.getWidth() * img.getHeight();
     for (int i = 0; i<256; i++) {
@@ -107,7 +104,6 @@ public BufferedImage GreennKG(BufferedImage img, double alpha, double beta) {
 //    		/nAlpha;
 //    	if (newHistograma[i] >= media) newHistograma[i] = media;
     	
-//    	System.out.println(hcl[i] + " / / " + pdAlpha[i]);
     	
 //    	cont += histograma[i];
     	
@@ -141,11 +137,8 @@ public BufferedImage GreennKG(BufferedImage img, double alpha, double beta) {
     
     for(int i = min; i <= max; i++) {
     	nivelEqua[i] = (int)(min + (difMaxMin * cdAlpha[i]));
-    	System.out.println(nivelEqua[i] + " / / / " + cdAlpha[i]);
     }
     
-    
-//    System.out.println(min+ " " + max+ " " + cont + " ALALALALALLALALA" + cont2);
     
     for (int i = 0; i < img.getWidth(); i++) {
         for (int j = 0; j < img.getHeight(); j++) {
