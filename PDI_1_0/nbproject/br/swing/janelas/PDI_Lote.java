@@ -109,7 +109,7 @@ public class PDI_Lote extends javax.swing.JFrame {
 
         jLabel5.setText("Qual (s):");
 
-        tecnica01.setText("Tecnica 01");
+        tecnica01.setText("Equalização PWBHEPL");
         tecnica01.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tecnica01ActionPerformed(evt);
@@ -231,7 +231,7 @@ public class PDI_Lote extends javax.swing.JFrame {
                 //EXEMPLO DE TÉCNICA QUE PRECISA DE UM PARAMETRO DE ENTRADA....
                 if (tecnica01.isSelected()) {
                     String alpha = JOptionPane.showInputDialog(null, "Entre com um valor para Alpha (Sendo Alpha > 1): ");
-                    String beta = JOptionPane.showInputDialog(null, "Entre com um valor para Beta: ");
+                    String beta = JOptionPane.showInputDialog(null, "Entre com um valor para Beta: (Sendo Beta > 1)");
                     double converteAlpha;
                     double converteBeta;
                     
@@ -263,7 +263,7 @@ public class PDI_Lote extends javax.swing.JFrame {
                         // ----- APLICACAO DA TECNICA -------
                         resvariavelK = WA.GreennKG(imgvariavelK, converteAlpha, converteBeta);
                         //Nome que vai no nome do arquivo para identificar técnica.
-                        Nome = "_KG";
+                        Nome = "-(A="+ converteAlpha + ")-(B" + converteBeta  +")-(PWBHEPL)";
                         //SAIDA CONTENDO CAMINHO DA IMAGEM + NOME DA IMAGEM
                         String aSaida = pastaSalvar + imagevariavelK + Nome + ".png";
                         File outputFile = new File(aSaida);
