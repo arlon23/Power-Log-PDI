@@ -10,7 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.text.JTextComponent;
+
 import implementacoes.Greenness;
 import infraBasica_conflito.ManipulaArquivo;
 import interfaces.ImageInterface;
@@ -33,7 +36,6 @@ public class PDI_Lote extends javax.swing.JFrame {
     ImageInterface canvas, canvas1, canvas2, canvas3, canvas4, canvas5, canvas6, canvas7, canvas8, canvas9, canvas0;
     String pastaSalvar = "";
     String Nome;
-
     /**
      * Creates new form ProcessaWhiteness
      *
@@ -66,6 +68,7 @@ public class PDI_Lote extends javax.swing.JFrame {
         SaidaImagem = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         tecnica01 = new javax.swing.JCheckBox();
+        tecnica02 = new javax.swing.JCheckBox();
         Processar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
@@ -115,6 +118,14 @@ public class PDI_Lote extends javax.swing.JFrame {
                 tecnica01ActionPerformed(evt);
             }
         });
+        
+        
+		tecnica02.setText("Equalização PWBHEPL p/ Imagens Coloridas");
+        tecnica02.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tecnica01ActionPerformed(evt);
+            }
+        });
 
         Processar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Processar.setText("Processar");
@@ -154,7 +165,8 @@ public class PDI_Lote extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(tecnica01)))
+                                .addComponent(tecnica01)
+                                .addComponent(tecnica02)))
                         .addGap(80, 210, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
@@ -183,6 +195,7 @@ public class PDI_Lote extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tecnica01)
+                    .addComponent(tecnica02)
                     .addComponent(jLabel5))
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -237,13 +250,13 @@ public class PDI_Lote extends javax.swing.JFrame {
                     
 //                    JOptionPane.showMessageDialog(null, alpha);
                     
-                    if(alpha.equals(null)) {
+                    if(alpha.equals("")) {
                     	converteAlpha = 2.00;
                     	JOptionPane.showMessageDialog(null, alpha);
                     }
                     else	converteAlpha = Double.parseDouble(alpha);
                     
-                    if(beta.equals(null)) {
+                    if(beta.equals("")) {
                     	converteBeta = 2.00;
 //                    	JOptionPane.showMessageDialog(null, beta);
                     }
@@ -274,7 +287,53 @@ public class PDI_Lote extends javax.swing.JFrame {
 //                        ImageIO.write(outvariavelK, "png", outputFile);
                         ImageIO.write(resvariavelK, "png", outputFile);
                     }
-                }                
+                } 
+                else if (tecnica02.isSelected()) {
+                    String alpha = JOptionPane.showInputDialog(null, "Entre com um valor para Alpha (Sendo Alpha > 1): ");
+                    String beta = JOptionPane.showInputDialog(null, "Entre com um valor para Beta: (Sendo Beta > 1)");
+                    double converteAlpha;
+                    double converteBeta;
+                    
+//                    JOptionPane.showMessageDialog(null, alpha);
+                    
+                    if(alpha.equals("")) {
+                    	converteAlpha = 2.00;
+                    	JOptionPane.showMessageDialog(null, alpha);
+                    }
+                    else	converteAlpha = Double.parseDouble(alpha);
+                    
+                    if(beta.equals("")) {
+                    	converteBeta = 2.00;
+//                    	JOptionPane.showMessageDialog(null, beta);
+                    }
+                    else	converteBeta = Double.parseDouble(beta);
+                    
+                    for (File pathtecnica01 : pathsOriginal) {
+                        String imagevariavelK = pathtecnica01.getName();
+                        //DIVISAO DO NOME DA IMAGEM SEM SUA EXTENSÃO PARA COMPARAÇÃO FUTURA
+                        imagevariavelK = imagevariavelK.substring(0, (imagevariavelK.length() - 4));
+                        BufferedImage imgvariavelK = ImageIO.read(pathtecnica01);
+                        //Cria imagem resultante
+                        BufferedImage resvariavelK, outvariavelK = new BufferedImage(imgvariavelK.getWidth(), imgvariavelK.getHeight(), imgvariavelK.getType());
+                        //CRIA OBJETO DA CLASSE 
+                        //Neste exemplo, utiliza-se a técnica que está na classe Greeness
+                        Greenness WA = new Greenness();
+                        //IMAGEM RESULTANTE DA FORMULA
+                        // ----- APLICACAO DA TECNICA -------
+                        resvariavelK = WA.imagemColorida(imgvariavelK, converteAlpha, converteBeta);
+                        //Nome que vai no nome do arquivo para identificar técnica.
+                        Nome = "-(A="+ converteAlpha + ")-(B" + converteBeta  +")-(PWBHEPL-Colorida)";
+                        //SAIDA CONTENDO CAMINHO DA IMAGEM + NOME DA IMAGEM
+                        String aSaida = pastaSalvar + imagevariavelK + Nome + ".png";
+                        File outputFile = new File(aSaida);
+                        //CHAMADA METODO KMEANS COMO PARAMETRO A IMAGEM RESULTADO 
+                        canvas = new PDIKmeansGray(resvariavelK);
+                        outvariavelK = canvas.getImage();
+                        //SALVA A IMAGEM
+//                        ImageIO.write(outvariavelK, "png", outputFile);
+                        ImageIO.write(resvariavelK, "png", outputFile);
+                    }
+                }
             } else {
                 JOptionPane.showMessageDialog(mainFrame2, "Falha");
             }
@@ -477,5 +536,6 @@ public class PDI_Lote extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JCheckBox tecnica01;
+    private javax.swing.JCheckBox tecnica02;
     // End of variables declaration//GEN-END:variables
 }
