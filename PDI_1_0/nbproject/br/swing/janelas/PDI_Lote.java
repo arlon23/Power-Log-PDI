@@ -252,13 +252,11 @@ public class PDI_Lote extends javax.swing.JFrame {
                     
                     if(alpha.equals("")) {
                     	converteAlpha = 2.00;
-                    	JOptionPane.showMessageDialog(null, alpha);
                     }
                     else	converteAlpha = Double.parseDouble(alpha);
                     
                     if(beta.equals("")) {
                     	converteBeta = 2.00;
-//                    	JOptionPane.showMessageDialog(null, beta);
                     }
                     else	converteBeta = Double.parseDouble(beta);
                     
